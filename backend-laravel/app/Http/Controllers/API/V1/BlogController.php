@@ -101,7 +101,7 @@ class BlogController extends Controller
         if($allCategoryPosts){
             $allCategoryPosts->delete();
         }
-        
+
         foreach (request("category_ids") as $category){
 
             //Assign post to category
