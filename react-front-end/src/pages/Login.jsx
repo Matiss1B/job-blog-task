@@ -1,6 +1,33 @@
 import loginIcon from "../assets/icons/undraw_fingerprint_login_re_t71l (1).svg"
-
+import {useState} from "react";
+import axios from "axios";
+import Cookies from 'js-cookie';
+import {redirect} from "react-router-dom";
 function Login() {
+    const initialFieldErrors = {
+        email:[""],
+        password:[""]
+    }
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("")
+    const [errors, setErrors] = useState(initialFieldErrors);
+    const handleSubmit = async () =>{
+        try{
+            const response = await axios.post("http://localhost/api/v1/user/login", {
+                email:email,
+                password:password
+            });
+            if(response.data.status == 201){
+                console.log(response);
+                Cookies.set('blog-app-session-token', response.data.token, { expires: 1/24 });
+            }
+        }catch (e) {
+            console.log(e)
+            if(e.response.data.status == 422){
+                setErrors(e.response.data.errors);
+            }
+        }
+    }
     return (
         <div className="App">
             <div className="flex min-h-screen items-center justify-center md:bg-background">
@@ -11,30 +38,41 @@ function Login() {
                             <h1 className=" text-3xl font-bold tracking-wide">Back!</h1>
                             <p className="text-secondary">Sign in with your accoun!</p>
                         </div>
-                        <div className="space-x-05 flex w-full items-center">
+                        <div className="space-x-05 flex-col flex w-full">
                             <div className="flex w-full flex-col justify-center space-y-1">
                                 <input
                                     placeholder="Email"
                                     className="w-full border-b border-secondary p-1 text-sm hover:border-primary focus:border-primary  focus:outline-none"
+                                    onChange={(e)=>{
+                                        setEmail(e.target.value)
+                                    }}
                                     type="text"
                                 />
                             </div>
+                            {errors.email[0] && (
+                                <p className="text-red-700 text-xs">{errors.email[0]}</p>
+                            )}
                         </div>
-                        <div className="space-x-05 flex w-full items-center">
+                        <div className="space-x-05 flex flex-col w-full">
                             <div className="flex w-full flex-col justify-center space-y-1">
                                 <input
                                     placeholder="Password"
-
+                                    onChange={(e)=>{
+                                        setPassword(e.target.value)
+                                    }}
                                     className="w-full border-b border-secondary p-1 text-sm hover:border-primary focus:border-primary  focus:outline-none"
                                     type="text"
                                 />
-
                             </div>
+                            {errors.password[0] && (
+                                <p className="text-red-700 text-xs">{errors.password[0]}</p>
+                            )}
                         </div>
                         <div className="space-x-05 flex w-full items-center"></div>
                         <div className="flex w-full flex-col items-center space-y-2">
                             <button
                                 className="main-btn w-full py-4 text-white"
+                                onClick={handleSubmit}
                             >
                                 Login
                             </button>

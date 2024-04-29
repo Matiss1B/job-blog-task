@@ -7,6 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
+use App\Models\API\V1\Comment;
 
 class CheckComentAuthor
 {

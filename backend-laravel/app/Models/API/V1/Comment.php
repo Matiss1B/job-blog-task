@@ -13,4 +13,10 @@ class Comment extends Model
         "user_id",
         "blog_id"
     ];
+    public function user() {
+        return $this->belongsTo(User::class, "user_id", "id")->select(['id', 'name']);
+    }
+    public function blog() {
+        return $this->belongsTo(Blog::class, "blog_id", "id")->select(['id', 'title']);
+    }
 }
