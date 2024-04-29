@@ -167,7 +167,7 @@ class BlogController extends Controller
         //If blog deleted
         return response()->json([
             'status' => 201,
-            'message' => "Blog updated!"
+            'message' => "Blog deleted!"
         ], 201);
 
     }
@@ -186,7 +186,10 @@ class BlogController extends Controller
 
 
      }
-     return $blogs;
+        return response()->json([
+            "status"=> 201,
+            "blogs"=>$blogs
+        ], 201);
     }
     public function getSingle($id)
     {
@@ -198,7 +201,10 @@ class BlogController extends Controller
             ->where("blog_id", "=", $id)
             ->with("user")
             ->get();
-        return $blog;
+        return response()->json([
+            "status"=> 201,
+            "blogs"=>$blog
+        ], 201);
     }
 
     public function getForUser()
@@ -213,7 +219,10 @@ class BlogController extends Controller
                 ->with("user")
                 ->get();
         }
-        return $blogs;
+        return response()->json([
+            "status"=> 201,
+            "blogs"=>$blogs
+        ], 201;
     }
 
 

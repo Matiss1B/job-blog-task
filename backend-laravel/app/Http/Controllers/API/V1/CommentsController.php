@@ -30,7 +30,7 @@ class CommentsController extends Controller
             return response()->json([
                 "status" => 300,
                 "message"=>"Blog doesn't exsist!"
-            ]);
+            ], 300);
         }
 
         $comment = Comment::query()->create([
@@ -43,12 +43,12 @@ class CommentsController extends Controller
             return response()->json([
                 "status" => 300,
                 "message"=>"Comment creation failed!"
-            ]);
+            ], 300);
         }
         return response()->json([
             "status" => 201,
             "message"=>"Blog created successfully!"
-        ]);
+        ], 201);
     }
     public function getAllForUser()
     {
@@ -62,7 +62,7 @@ class CommentsController extends Controller
             "status" => 201,
             "comments"=> $comments,
             "message"=>"Comments selected successfully"
-        ]);
+        ], 201);
     }
     public function delete($id)
     {
@@ -70,11 +70,11 @@ class CommentsController extends Controller
             return response()->json([
                 "status" => 300,
                 "message"=>"Comment deleting failed!"
-            ]);
+            ], 300);
         }
         return response()->json([
             "status" => 201,
             "message"=>"Comment deleted successfully!"
-        ]);
+        ], 201);
     }
 }
