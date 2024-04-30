@@ -12,7 +12,6 @@ class Blog extends Model
         "title",
         "user_id",
         "description",
-        "category_id",
         "img",
     ];
     public function user() {

@@ -2,7 +2,7 @@ import loginIcon from "../assets/icons/undraw_fingerprint_login_re_t71l (1).svg"
 import {useState} from "react";
 import axios from "axios";
 import Cookies from 'js-cookie';
-import {redirect} from "react-router-dom";
+import {redirect, useNavigate} from "react-router-dom";
 function Login() {
     const initialFieldErrors = {
         email:[""],
@@ -11,7 +11,9 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
     const [errors, setErrors] = useState(initialFieldErrors);
+    const navigate = useNavigate();
     const handleSubmit = async () =>{
+        setErrors(initialFieldErrors);
         try{
             const response = await axios.post("http://localhost/api/v1/user/login", {
                 email:email,
@@ -20,12 +22,15 @@ function Login() {
             if(response.data.status == 201){
                 console.log(response);
                 Cookies.set('blog-app-session-token', response.data.token, { expires: 1/24 });
+                navigate("/");
             }
         }catch (e) {
             console.log(e)
             if(e.response.data.status == 422){
-                setErrors(e.response.data.errors);
-            }
+                setErrors(prevState => ({
+                    ...prevState,
+                    ...e.response.data.errors
+                }));            }
         }
     }
     return (
@@ -36,7 +41,7 @@ function Login() {
                         <div className="flex flex-col items-center justify-center space-y-2">
                             <h1 className=" text-3xl font-bold tracking-wide">Welcome</h1>
                             <h1 className=" text-3xl font-bold tracking-wide">Back!</h1>
-                            <p className="text-secondary">Sign in with your accoun!</p>
+                            <p className="text-secondary">Sign in with your account!</p>
                         </div>
                         <div className="space-x-05 flex-col flex w-full">
                             <div className="flex w-full flex-col justify-center space-y-1">
@@ -76,6 +81,7 @@ function Login() {
                             >
                                 Login
                             </button>
+                            <p className="underline hover:text-primary cursor-pointer" onClick={()=>navigate("/register")}>Do not have an account?</p>
                         </div>
                     </div>
                     <div

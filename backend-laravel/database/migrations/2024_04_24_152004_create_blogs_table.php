@@ -17,7 +17,6 @@ return new class extends Migration
             $table->text("description");
             $table->text("img");
             $table->integer("user_id");
-            $table->integer("category_id");
             $table->timestamps();
         });
     }

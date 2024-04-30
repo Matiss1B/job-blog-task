@@ -2,7 +2,9 @@ import React, {useState} from 'react';
 import registerIcon from "../assets/icons/undraw_my_password_re_ydq7.svg"
 import axios from "axios";
 import Cookies from "js-cookie";
+import {useNavigate} from "react-router-dom";
 const Register = () => {
+    const navigate = useNavigate();
     const initialFieldErrors = {
         name:[""],
         email:[""],
@@ -24,7 +26,8 @@ const Register = () => {
                 confirm_password:confirmPassword
             });
             if(response.data.status == 201){
-                console.log(response);
+                Cookies.set('blog-app-session-token', response.data.token, { expires: 1/24 });
+                navigate("/");
             }
         }catch (e) {
             console.log(e)
@@ -107,6 +110,7 @@ const Register = () => {
                     >
                         Register
                     </button>
+                    <p className="underline hover:text-primary cursor-pointer" onClick={() => navigate("/login")}>Have an account?</p>
                 </div>
             </div>
             <div

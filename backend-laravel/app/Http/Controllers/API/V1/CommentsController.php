@@ -47,7 +47,8 @@ class CommentsController extends Controller
         }
         return response()->json([
             "status" => 201,
-            "message"=>"Blog created successfully!"
+            "comment"=> [Comment::query()->latest()->with("user")->first()],
+            "message"=>"Comment created successfully!"
         ], 201);
     }
     public function getAllForUser()

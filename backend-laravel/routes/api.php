@@ -8,10 +8,13 @@ use App\Http\Middleware\AuthorizeUser;
 use App\Http\Middleware\CheckBlogAuthor;
 use App\Http\Controllers\API\V1\CommentsController;
 use App\Http\Middleware\CheckComentAuthor;
+use App\Http\Controllers\API\V1\CategoriesController;
 
 //AuthenticationController
 Route::post("v1/user/register", [AuthenticationController::class, "register"]);
 Route::post("v1/user/login", [AuthenticationController::class, "login"]);
+Route::post("v1/user/logout", [AuthenticationController::class, "logout"])
+    ->middleware(AuthorizeUser::class);
 
 //BlogController
 Route::post("v1/blog/create", [BlogController::class, "create"])
@@ -25,11 +28,13 @@ Route::delete("v1/blog/delete/{id}", [BlogController::class, "destroy"])
     ->middleware(AuthorizeUser::class)
     ->middleware(CheckBlogAuthor::class);
 
-Route::get("v1/blog/get", [BlogController::class, "getAll"])
-    ->middleware(AuthorizeUser::class);
+Route::get("v1/blog/get", [BlogController::class, "getAll"]);
 
-Route::get("v1/blog/{id}", [BlogController::class, "getSingle"])
-    ->middleware(AuthorizeUser::class);
+Route::get("v1/blog/{id}", [BlogController::class, "getSingle"]);
+
+Route::get("v1/blog/get/update/{id}", [BlogController::class, "getSingle"])
+    ->middleware(AuthorizeUser::class)
+    ->middleware(CheckBlogAuthor::class);
 
 Route::get("v1/blog/all/for/user", [BlogController::class, "getForUser"])
     ->middleware(AuthorizeUser::class);
@@ -45,3 +50,6 @@ Route::get("v1/comments/get", [CommentsController::class, "getAllForUser"])
 Route::delete("v1/comment/delete/{id}", [CommentsController::class, "delete"])
     ->middleware(AuthorizeUser::class)
     ->middleware(CheckComentAuthor::class);
+
+//CategoriesController
+Route::get("v1/categories/get", [CategoriesController::class, "getAll"]);

@@ -45,10 +45,25 @@ class AuthenticationController extends Controller
                 'message' => "User registration failed"
             ], 300);
         }
+        $token = Str::random(30);
+
+        //Create access token
+        $createToken = Token::query()->create([
+            "token"=>$token,
+            "user_id"=>$createUser->id,
+        ]);
+
+        if(!$createToken){
+            return response()->json([
+                'status' => 300,
+                'message' => "Token creation failed"
+            ], 300);
+        }
 
         //If successful
         return  response()->json([
             'status'=>201,
+            'token'=>$token,
             'message' => "Registration successful!"
         ], 201);
     }
@@ -109,6 +124,16 @@ class AuthenticationController extends Controller
             ], 201);
         }
 
+    }
+    public function logout(Request $request){
+        $data = $request->all();
+        if(Token::where("token", $data["token"])->delete()) {
+            Auth::logout();
+            return response()->json(["status" => 201, "link"=>""], 200);
+        }else{
+            return response()->json(["status" => 300, "message" => "Something gone wrong"], 403);
+
+        }
     }
 
 }

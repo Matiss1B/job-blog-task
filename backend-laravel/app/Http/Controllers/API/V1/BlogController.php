@@ -222,7 +222,7 @@ class BlogController extends Controller
         return response()->json([
             "status"=> 201,
             "blogs"=>$blogs
-        ], 201;
+        ], 201);
     }
 
 
