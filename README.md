@@ -55,7 +55,23 @@ composer install
 - email: ```janka@gmail.com```
 - password: ```iamthebest```
 
-## Installation and setup for backend (Folder: laravel-backend)
+## Installation and setup for backend (Folder: react-front-end)
+
+## Open react root folder and run these comands in termoinal:
+**Install package.josn and all dependencies:**
+```bash
+npm i
+```
+or
+```bash
+npm intsall
+```
+**Run the project:**
+```bash
+npm start
+```
+
+
 
 
 
