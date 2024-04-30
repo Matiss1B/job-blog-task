@@ -55,4 +55,7 @@ composer install
 - email: ```janka@gmail.com```
 - password: ```iamthebest```
 
+## Installation and setup for backend (Folder: laravel-backend)
+
+
 
